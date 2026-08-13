@@ -1,0 +1,16 @@
+node_modules/
+.next/
+__pycache__/
+venv/
+.venv/
+.env
+.env.*
+*.db
+*.sqlite3
+.DS_Store
+.vscode/
+.idea/
+build/
+dist/
+coverage/
+out/

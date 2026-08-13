@@ -395,7 +395,7 @@ export default function Home() {
                       onChange={(e) => setUsername(e.target.value)}
                       required
                       placeholder="e.g. alice"
-                      className="w-full px-3 py-2 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg text-xs text-white focus:outline-none focus:border-blue-500"
+                      className="w-full px-3 py-2 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg text-xs text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-blue-500"
                     />
                   </div>
                   <div>
@@ -406,7 +406,7 @@ export default function Home() {
                       onChange={(e) => setDisplayName(e.target.value)}
                       required
                       placeholder="e.g. Alice"
-                      className="w-full px-3 py-2 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg text-xs text-white focus:outline-none focus:border-blue-500"
+                      className="w-full px-3 py-2 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg text-xs text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-blue-500"
                     />
                   </div>
                   <div>
@@ -416,7 +416,7 @@ export default function Home() {
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       placeholder="+911234567890"
-                      className="w-full px-3 py-2 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg text-xs text-white focus:outline-none focus:border-blue-500"
+                      className="w-full px-3 py-2 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg text-xs text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-blue-500"
                     />
                   </div>
                   <button
@@ -437,7 +437,7 @@ export default function Home() {
                       onChange={(e) => setUsername(e.target.value)}
                       required
                       placeholder="e.g. alice"
-                      className="w-full px-3 py-2 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg text-xs text-white focus:outline-none focus:border-blue-500"
+                      className="w-full px-3 py-2 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg text-xs text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-blue-500"
                     />
                   </div>
                   <button
@@ -462,7 +462,7 @@ export default function Home() {
                     onChange={(e) => setOtp(e.target.value)}
                     required
                     maxLength={6}
-                    className="w-full px-3 py-2 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg text-xs font-mono text-center tracking-widest text-emerald-400 text-base focus:outline-none focus:border-blue-500"
+                    className="w-full px-3 py-2 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg text-xs font-mono text-center tracking-widest text-emerald-500 dark:text-emerald-400 text-base focus:outline-none focus:border-blue-500"
                   />
                 </div>
                 <div className="flex space-x-2">
@@ -745,7 +745,7 @@ export default function Home() {
                   onChange={(e) => setAddContactUsername(e.target.value)}
                   required
                   placeholder="e.g. bob"
-                  className="w-full px-3 py-2 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg text-xs text-white focus:outline-none focus:border-blue-500"
+                  className="w-full px-3 py-2 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg text-xs text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-blue-500"
                 />
               </div>
               <div className="flex justify-end space-x-2 pt-2">

@@ -291,7 +291,7 @@ export default function Home() {
   };
 
   return (
-    <main className="flex-1 flex flex-col h-screen bg-slate-950 text-slate-100 overflow-hidden">
+    <main className="flex-1 flex flex-col h-full bg-slate-950 text-slate-100 overflow-hidden">
       {/* Header bar */}
       <header className="h-14 border-b border-slate-800 bg-slate-900/60 backdrop-blur-md px-6 flex items-center justify-between shrink-0">
         <div className="flex items-center space-x-3">

@@ -490,7 +490,7 @@ export default function Home() {
         /* Post-Auth Viora Interface */
         <div className="absolute top-14 bottom-0 left-0 right-0 flex overflow-hidden">
           {/* Viora Sidebar */}
-          <aside className={`w-full md:w-[340px] lg:w-96 border-r border-slate-200/50 dark:border-slate-800/50 bg-slate-50 dark:bg-[#0b1120] flex flex-col shrink-0 transition-all ${selectedConversation ? 'hidden md:flex' : 'flex'} shadow-[4px_0_24px_rgba(0,0,0,0.2)] z-20`}>
+          <aside className={`w-full md:w-[340px] lg:w-96 border-r border-slate-200/50 dark:border-slate-800/50 bg-slate-50 dark:bg-[#0b1120] flex flex-col min-h-0 shrink-0 transition-all ${selectedConversation ? 'hidden md:flex' : 'flex'} shadow-[4px_0_24px_rgba(0,0,0,0.2)] z-20`}>
             
             {/* User Profile Summary */}
             <div onClick={() => setShowSettingsModal(true)} className="p-5 border-b border-slate-200/50 dark:border-slate-800/50 flex items-center justify-between hover:bg-slate-200/30 dark:bg-slate-800/30 cursor-pointer transition-colors group">
@@ -587,7 +587,7 @@ export default function Home() {
             </div>
 
             {/* List View */}
-            <div className="flex-1 overflow-y-auto custom-scrollbar">
+            <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar">
               {loading ? (
                 <div className="p-8 text-center text-sm font-medium text-slate-900 dark:text-slate-500 animate-pulse">Loading...</div>
               ) : sidebarTab === 'chats' ? (

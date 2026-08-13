@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta, timezone
 import secrets
+import os
 from typing import Dict, Optional
 
 from fastapi import Depends, HTTPException, Request, Response, status
@@ -90,13 +91,15 @@ def _create_session_and_set_cookie(db: Session, user: User, response: Response) 
     db.commit()
     db.refresh(user)
 
+    is_prod = os.getenv("ENVIRONMENT") == "production"
+
     # Set HttpOnly Cookie for session persistence
     response.set_cookie(
         key=COOKIE_NAME,
         value=token,
         httponly=True,
-        samesite="lax",
-        secure=False,  # Set to False for local HTTP development
+        samesite="none" if is_prod else "lax",
+        secure=is_prod,
         max_age=SESSION_EXPIRE_DAYS * 24 * 3600,
         path="/",
     )
@@ -173,13 +176,15 @@ def logout_user(db: Session, request: Request, response: Response) -> dict:
             db.delete(auth_session)
             db.commit()
 
+    is_prod = os.getenv("ENVIRONMENT") == "production"
+
     # Clear HttpOnly cookie
     response.delete_cookie(
         key=COOKIE_NAME,
         path="/",
         httponly=True,
-        samesite="lax",
-        secure=False,
+        samesite="none" if is_prod else "lax",
+        secure=is_prod,
     )
 
     return {"message": "Logged out successfully"}

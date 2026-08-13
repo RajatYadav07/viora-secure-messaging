@@ -37,11 +37,31 @@ import {
   UserPlus,
   Users,
   UsersRound,
+  Sun,
+  Moon,
 } from 'lucide-react';
 
 export default function Home() {
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
   const [health, setHealth] = useState<'loading' | 'online' | 'offline'>('loading');
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    if (localStorage.theme === 'light') {
+      setTheme('light');
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+    localStorage.theme = newTheme;
+    if (newTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  };
 
   // Auth form states
   const [activeAuthTab, setActiveAuthTab] = useState<'register' | 'login'>('register');
@@ -291,18 +311,25 @@ export default function Home() {
   };
 
   return (
-    <main className="flex-1 flex flex-col bg-slate-950 text-slate-100 relative">
+    <main className="flex-1 flex flex-col bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 relative">
       {/* Header bar */}
-      <header className="h-14 border-b border-slate-800 bg-slate-900/60 backdrop-blur-md px-6 flex items-center justify-between shrink-0">
+      <header className="h-14 border-b border-slate-200 dark:border-slate-800 bg-slate-100/60 dark:bg-slate-900/60 backdrop-blur-md px-6 flex items-center justify-between shrink-0">
         <div className="flex items-center space-x-3">
           <div className="p-1.5 bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-xl shadow-sm border border-blue-400/20">
             <Shield className="w-5 h-5" />
           </div>
           <div>
-            <h1 className="text-lg font-bold tracking-wide text-slate-100">Viora</h1>
+            <h1 className="text-lg font-bold tracking-wide text-slate-900 dark:text-slate-100">Viora</h1>
           </div>
         </div>
         <div className="flex items-center space-x-4">
+          <button
+            onClick={toggleTheme}
+            className="p-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition-all"
+            title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+          >
+            {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          </button>
           <StatusBadge status={health} />
           {currentUser && (
             <button
@@ -330,15 +357,15 @@ export default function Home() {
             <p className="text-sm font-medium text-blue-400/80 tracking-wide uppercase">Secure, real-time messaging</p>
           </div>
 
-          <div className="max-w-md w-full bg-slate-900/80 backdrop-blur-xl border border-slate-700/50 rounded-3xl p-8 shadow-2xl space-y-8 relative z-10">
+          <div className="max-w-md w-full bg-slate-100/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-300/50 dark:border-slate-700/50 rounded-3xl p-8 shadow-2xl space-y-8 relative z-10">
 
             {/* Auth Tabs */}
             {authStep === 'input' && (
-              <div className="flex bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs font-medium">
+              <div className="flex bg-white dark:bg-slate-950 p-1 rounded-xl border border-slate-200 dark:border-slate-800 text-xs font-medium">
                 <button
                   onClick={() => { setActiveAuthTab('register'); setToast(null); }}
                   className={`flex-1 py-2 rounded-lg transition-all flex items-center justify-center space-x-1.5 ${
-                    activeAuthTab === 'register' ? 'bg-blue-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'
+                    activeAuthTab === 'register' ? 'bg-blue-600 text-white shadow' : 'text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200'
                   }`}
                 >
                   <UserPlus className="w-4 h-4" />
@@ -347,7 +374,7 @@ export default function Home() {
                 <button
                   onClick={() => { setActiveAuthTab('login'); setToast(null); }}
                   className={`flex-1 py-2 rounded-lg transition-all flex items-center justify-center space-x-1.5 ${
-                    activeAuthTab === 'login' ? 'bg-blue-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'
+                    activeAuthTab === 'login' ? 'bg-blue-600 text-white shadow' : 'text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200'
                   }`}
                 >
                   <KeyRound className="w-4 h-4" />
@@ -361,35 +388,35 @@ export default function Home() {
               activeAuthTab === 'register' ? (
                 <form onSubmit={handleRegisterSubmit} className="space-y-3">
                   <div>
-                    <label className="block text-xs font-medium text-slate-300 mb-1">Username *</label>
+                    <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Username *</label>
                     <input
                       type="text"
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
                       required
                       placeholder="e.g. alice"
-                      className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-xs text-white focus:outline-none focus:border-blue-500"
+                      className="w-full px-3 py-2 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg text-xs text-white focus:outline-none focus:border-blue-500"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-medium text-slate-300 mb-1">Display Name *</label>
+                    <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Display Name *</label>
                     <input
                       type="text"
                       value={displayName}
                       onChange={(e) => setDisplayName(e.target.value)}
                       required
                       placeholder="e.g. Alice"
-                      className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-xs text-white focus:outline-none focus:border-blue-500"
+                      className="w-full px-3 py-2 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg text-xs text-white focus:outline-none focus:border-blue-500"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-medium text-slate-300 mb-1">Phone (Optional)</label>
+                    <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Phone (Optional)</label>
                     <input
                       type="text"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       placeholder="+911234567890"
-                      className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-xs text-white focus:outline-none focus:border-blue-500"
+                      className="w-full px-3 py-2 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg text-xs text-white focus:outline-none focus:border-blue-500"
                     />
                   </div>
                   <button
@@ -403,14 +430,14 @@ export default function Home() {
               ) : (
                 <form onSubmit={handleLoginSubmit} className="space-y-3">
                   <div>
-                    <label className="block text-xs font-medium text-slate-300 mb-1">Username *</label>
+                    <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Username *</label>
                     <input
                       type="text"
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
                       required
                       placeholder="e.g. alice"
-                      className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-xs text-white focus:outline-none focus:border-blue-500"
+                      className="w-full px-3 py-2 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg text-xs text-white focus:outline-none focus:border-blue-500"
                     />
                   </div>
                   <button
@@ -428,21 +455,21 @@ export default function Home() {
                   Use fixed test code <code className="font-bold text-white bg-blue-600/30 px-1.5 py-0.5 rounded">123456</code>
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-slate-300 mb-1">6-Digit OTP *</label>
+                  <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">6-Digit OTP *</label>
                   <input
                     type="text"
                     value={otp}
                     onChange={(e) => setOtp(e.target.value)}
                     required
                     maxLength={6}
-                    className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-xs font-mono text-center tracking-widest text-emerald-400 text-base focus:outline-none focus:border-blue-500"
+                    className="w-full px-3 py-2 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg text-xs font-mono text-center tracking-widest text-emerald-400 text-base focus:outline-none focus:border-blue-500"
                   />
                 </div>
                 <div className="flex space-x-2">
                   <button
                     type="button"
                     onClick={() => setAuthStep('input')}
-                    className="w-1/3 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium text-xs rounded-lg transition-all"
+                    className="w-1/3 py-2.5 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:bg-slate-700 text-slate-700 dark:text-slate-300 font-medium text-xs rounded-lg transition-all"
                   >
                     Back
                   </button>
@@ -463,10 +490,10 @@ export default function Home() {
         /* Post-Auth Viora Interface */
         <div className="absolute top-14 bottom-0 left-0 right-0 flex overflow-hidden">
           {/* Viora Sidebar */}
-          <aside className={`w-full md:w-[340px] lg:w-96 border-r border-slate-800/50 bg-[#0b1120] flex flex-col shrink-0 transition-all ${selectedConversation ? 'hidden md:flex' : 'flex'} shadow-[4px_0_24px_rgba(0,0,0,0.2)] z-20`}>
+          <aside className={`w-full md:w-[340px] lg:w-96 border-r border-slate-200/50 dark:border-slate-800/50 bg-slate-50 dark:bg-[#0b1120] flex flex-col shrink-0 transition-all ${selectedConversation ? 'hidden md:flex' : 'flex'} shadow-[4px_0_24px_rgba(0,0,0,0.2)] z-20`}>
             
             {/* User Profile Summary */}
-            <div onClick={() => setShowSettingsModal(true)} className="p-5 border-b border-slate-800/50 flex items-center justify-between hover:bg-slate-800/30 cursor-pointer transition-colors group">
+            <div onClick={() => setShowSettingsModal(true)} className="p-5 border-b border-slate-200/50 dark:border-slate-800/50 flex items-center justify-between hover:bg-slate-200/30 dark:bg-slate-800/30 cursor-pointer transition-colors group">
               <div className="flex items-center space-x-3.5">
                 <div className="w-11 h-11 rounded-full overflow-hidden bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center font-bold text-white text-base shadow-sm ring-2 ring-slate-800/50 group-hover:ring-blue-500/50 transition-all">
                   {currentUser.avatar ? (
@@ -476,55 +503,55 @@ export default function Home() {
                   )}
                 </div>
                 <div className="text-left leading-tight">
-                  <div className="text-sm font-bold text-slate-100 tracking-wide">{currentUser.display_name}</div>
-                  <div className="text-xs text-slate-500 mt-0.5 font-medium">@{currentUser.username}</div>
+                  <div className="text-sm font-bold text-slate-900 dark:text-slate-100 tracking-wide">{currentUser.display_name}</div>
+                  <div className="text-xs text-slate-900 dark:text-slate-500 mt-0.5 font-medium">@{currentUser.username}</div>
                 </div>
               </div>
               <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]" title="Online" />
             </div>
 
             {/* Stories Placeholder */}
-            <div onClick={() => showToast('Stories are coming soon.', 'info')} className="px-4 py-3 border-b border-slate-800 flex items-center space-x-3 hover:bg-slate-800/50 cursor-pointer transition-colors bg-slate-950/30">
+            <div onClick={() => showToast('Stories are coming soon.', 'info')} className="px-4 py-3 border-b border-slate-200 dark:border-slate-800 flex items-center space-x-3 hover:bg-slate-200/50 dark:bg-slate-800/50 cursor-pointer transition-colors bg-white/30 dark:bg-slate-950/30">
               <div className="w-10 h-10 rounded-full border-2 border-blue-500 p-0.5">
-                <div className="w-full h-full rounded-full bg-slate-800 flex items-center justify-center font-bold text-lg text-slate-400 border border-slate-700">
+                <div className="w-full h-full rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center font-bold text-lg text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-700">
                   +
                 </div>
               </div>
               <div className="text-left">
                 <div className="text-xs font-bold text-white">Your Story</div>
-                <div className="text-[11px] text-slate-400">Add to your story</div>
+                <div className="text-[11px] text-slate-600 dark:text-slate-400">Add to your story</div>
               </div>
             </div>
 
             {/* Search Bar */}
-            <div className="p-4 border-b border-slate-800/50 bg-[#0b1120]">
+            <div className="p-4 border-b border-slate-200/50 dark:border-slate-800/50 bg-slate-50 dark:bg-[#0b1120]">
               <div className="relative group">
-                <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-3 transition-colors group-focus-within:text-blue-500" />
+                <Search className="w-4 h-4 text-slate-900 dark:text-slate-500 absolute left-3.5 top-3 transition-colors group-focus-within:text-blue-500" />
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => handleSearch(e.target.value)}
                   placeholder="Search chats & contacts..."
-                  className="w-full pl-10 pr-4 py-2.5 bg-slate-900/80 border border-slate-700/50 rounded-xl text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-500/70 focus:bg-slate-900 transition-all shadow-sm"
+                  className="w-full pl-10 pr-4 py-2.5 bg-slate-100/80 dark:bg-slate-900/80 border border-slate-300/50 dark:border-slate-700/50 rounded-xl text-sm text-slate-900 dark:text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-500/70 focus:bg-slate-100 dark:bg-slate-900 transition-all shadow-sm"
                 />
               </div>
             </div>
 
             {/* Filter Toggle */}
-            <div className="px-4 py-2 border-b border-slate-800 bg-slate-950 flex items-center justify-between">
-              <span className="text-[11px] font-medium text-slate-400">Filter</span>
-              <div className="flex bg-slate-900 rounded-lg border border-slate-800 p-0.5">
-                <button onClick={() => setShowUnreadOnly(false)} className={`px-3 py-1 text-[10px] font-bold rounded-md transition-all ${!showUnreadOnly ? 'bg-slate-700 text-white' : 'text-slate-500 hover:text-slate-300'}`}>All</button>
-                <button onClick={() => setShowUnreadOnly(true)} className={`px-3 py-1 text-[10px] font-bold rounded-md transition-all ${showUnreadOnly ? 'bg-slate-700 text-white' : 'text-slate-500 hover:text-slate-300'}`}>Unread</button>
+            <div className="px-4 py-2 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 flex items-center justify-between">
+              <span className="text-[11px] font-medium text-slate-600 dark:text-slate-400">Filter</span>
+              <div className="flex bg-slate-100 dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-0.5">
+                <button onClick={() => setShowUnreadOnly(false)} className={`px-3 py-1 text-[10px] font-bold rounded-md transition-all ${!showUnreadOnly ? 'bg-slate-300 dark:bg-slate-700 text-white' : 'text-slate-900 dark:text-slate-500 hover:text-slate-700 dark:text-slate-300'}`}>All</button>
+                <button onClick={() => setShowUnreadOnly(true)} className={`px-3 py-1 text-[10px] font-bold rounded-md transition-all ${showUnreadOnly ? 'bg-slate-300 dark:bg-slate-700 text-white' : 'text-slate-900 dark:text-slate-500 hover:text-slate-700 dark:text-slate-300'}`}>Unread</button>
               </div>
             </div>
 
             {/* Sidebar Navigation Tabs */}
-            <div className="flex border-b border-slate-800/50 text-sm font-semibold bg-[#0b1120]">
+            <div className="flex border-b border-slate-200/50 dark:border-slate-800/50 text-sm font-semibold bg-slate-50 dark:bg-[#0b1120]">
               <button
                 onClick={() => setSidebarTab('chats')}
                 className={`flex-1 py-3.5 border-b-2 transition-all flex items-center justify-center space-x-2 ${
-                  sidebarTab === 'chats' ? 'border-blue-500 text-blue-400' : 'border-transparent text-slate-500 hover:text-slate-300 hover:bg-slate-900/30'
+                  sidebarTab === 'chats' ? 'border-blue-500 text-blue-400' : 'border-transparent text-slate-900 dark:text-slate-500 hover:text-slate-700 dark:text-slate-300 hover:bg-slate-100/30 dark:bg-slate-900/30'
                 }`}
               >
                 <MessageSquare className="w-4 h-4" />
@@ -533,7 +560,7 @@ export default function Home() {
               <button
                 onClick={() => setSidebarTab('contacts')}
                 className={`flex-1 py-3.5 border-b-2 transition-all flex items-center justify-center space-x-2 ${
-                  sidebarTab === 'contacts' ? 'border-blue-500 text-blue-400' : 'border-transparent text-slate-500 hover:text-slate-300 hover:bg-slate-900/30'
+                  sidebarTab === 'contacts' ? 'border-blue-500 text-blue-400' : 'border-transparent text-slate-900 dark:text-slate-500 hover:text-slate-700 dark:text-slate-300 hover:bg-slate-100/30 dark:bg-slate-900/30'
                 }`}
               >
                 <Users className="w-4 h-4" />
@@ -542,17 +569,17 @@ export default function Home() {
             </div>
 
             {/* Actions */}
-            <div className="p-2 border-b border-slate-800/60 flex space-x-2">
+            <div className="p-2 border-b border-slate-200/60 dark:border-slate-800/60 flex space-x-2">
               <button
                 onClick={() => setShowAddContactModal(true)}
-                className="flex-1 py-1.5 px-3 bg-slate-800/80 hover:bg-slate-800 text-slate-200 text-xs rounded-lg flex items-center justify-center space-x-1.5 transition-all border border-slate-700/50"
+                className="flex-1 py-1.5 px-3 bg-slate-200/80 dark:bg-slate-800/80 hover:bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs rounded-lg flex items-center justify-center space-x-1.5 transition-all border border-slate-300/50 dark:border-slate-700/50"
               >
                 <Plus className="w-3.5 h-3.5" />
                 <span>Contact</span>
               </button>
               <button
                 onClick={() => setShowNewGroupModal(true)}
-                className="flex-1 py-1.5 px-3 bg-slate-800/80 hover:bg-slate-800 text-slate-200 text-xs rounded-lg flex items-center justify-center space-x-1.5 transition-all border border-slate-700/50"
+                className="flex-1 py-1.5 px-3 bg-slate-200/80 dark:bg-slate-800/80 hover:bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs rounded-lg flex items-center justify-center space-x-1.5 transition-all border border-slate-300/50 dark:border-slate-700/50"
               >
                 <UsersRound className="w-3.5 h-3.5" />
                 <span>Group</span>
@@ -562,16 +589,16 @@ export default function Home() {
             {/* List View */}
             <div className="flex-1 overflow-y-auto custom-scrollbar">
               {loading ? (
-                <div className="p-8 text-center text-sm font-medium text-slate-500 animate-pulse">Loading...</div>
+                <div className="p-8 text-center text-sm font-medium text-slate-900 dark:text-slate-500 animate-pulse">Loading...</div>
               ) : sidebarTab === 'chats' ? (
                 (showUnreadOnly ? conversations.filter(c => c.unread_count && c.unread_count > 0) : conversations).length === 0 ? (
                   <div className="p-10 flex flex-col items-center text-center space-y-3">
-                    <div className="w-16 h-16 rounded-full bg-slate-800/30 flex items-center justify-center border border-slate-700/30">
+                    <div className="w-16 h-16 rounded-full bg-slate-200/30 dark:bg-slate-800/30 flex items-center justify-center border border-slate-300/30 dark:border-slate-700/30">
                       <MessageSquare className="w-8 h-8 text-slate-600" />
                     </div>
                     <div>
-                      <p className="text-sm font-semibold text-slate-300">No conversations</p>
-                      <p className="text-xs text-slate-500 mt-1">Start a chat from your contacts.</p>
+                      <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">No conversations</p>
+                      <p className="text-xs text-slate-900 dark:text-slate-500 mt-1">Start a chat from your contacts.</p>
                     </div>
                   </div>
                 ) : (
@@ -584,8 +611,8 @@ export default function Home() {
                       <div
                         key={conv.id}
                         onClick={() => setSelectedConversation(conv)}
-                        className={`p-4 cursor-pointer transition-all flex items-center space-x-4 text-left border-b border-slate-800/30 ${
-                          isSelected ? 'bg-blue-600/10 border-l-4 border-l-blue-500' : 'hover:bg-slate-800/30 border-l-4 border-l-transparent'
+                        className={`p-4 cursor-pointer transition-all flex items-center space-x-4 text-left border-b border-slate-200/30 dark:border-slate-800/30 ${
+                          isSelected ? 'bg-blue-600/10 border-l-4 border-l-blue-500' : 'hover:bg-slate-200/30 dark:bg-slate-800/30 border-l-4 border-l-transparent'
                         }`}
                       >
                         <div className="relative shrink-0">
@@ -600,13 +627,13 @@ export default function Home() {
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between mb-1">
-                            <span className="text-sm font-semibold text-slate-100 truncate tracking-wide">{title}</span>
-                            <span className={`text-[11px] font-medium ${conv.unread_count > 0 ? 'text-blue-400' : 'text-slate-500'}`}>
+                            <span className="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate tracking-wide">{title}</span>
+                            <span className={`text-[11px] font-medium ${conv.unread_count > 0 ? 'text-blue-400' : 'text-slate-900 dark:text-slate-500'}`}>
                               {parseUtcDate(conv.updated_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                             </span>
                           </div>
                           <div className="flex items-center justify-between">
-                            <p className={`text-xs truncate pr-2 ${conv.unread_count > 0 ? 'text-slate-200 font-medium' : 'text-slate-500'}`}>{subtitle}</p>
+                            <p className={`text-xs truncate pr-2 ${conv.unread_count > 0 ? 'text-slate-800 dark:text-slate-200 font-medium' : 'text-slate-900 dark:text-slate-500'}`}>{subtitle}</p>
                             {conv.unread_count > 0 && (
                               <span className="px-2 py-0.5 bg-blue-600 text-white rounded-full text-[10px] font-bold shadow-sm">
                                 {conv.unread_count}
@@ -620,17 +647,17 @@ export default function Home() {
                 )
               ) : contacts.length === 0 ? (
                 <div className="p-10 flex flex-col items-center text-center space-y-3">
-                  <div className="w-16 h-16 rounded-full bg-slate-800/30 flex items-center justify-center border border-slate-700/30">
+                  <div className="w-16 h-16 rounded-full bg-slate-200/30 dark:bg-slate-800/30 flex items-center justify-center border border-slate-300/30 dark:border-slate-700/30">
                     <Users className="w-8 h-8 text-slate-600" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-slate-300">No contacts</p>
-                    <p className="text-xs text-slate-500 mt-1">Add contacts to start chatting.</p>
+                    <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">No contacts</p>
+                    <p className="text-xs text-slate-900 dark:text-slate-500 mt-1">Add contacts to start chatting.</p>
                   </div>
                 </div>
               ) : (
                 contacts.map((contact) => (
-                  <div key={contact.id} className="p-4 flex items-center justify-between hover:bg-slate-800/30 transition-all text-left border-b border-slate-800/30 group">
+                  <div key={contact.id} className="p-4 flex items-center justify-between hover:bg-slate-200/30 dark:bg-slate-800/30 transition-all text-left border-b border-slate-200/30 dark:border-slate-800/30 group">
                     <div className="flex items-center space-x-4 min-w-0">
                       <div className="relative shrink-0">
                         <Avatar url={contact.avatar} name={contact.display_name} className="w-11 h-11 text-md" />
@@ -639,8 +666,8 @@ export default function Home() {
                         )}
                       </div>
                       <div className="truncate">
-                        <div className="text-sm font-semibold text-slate-200 truncate">{contact.display_name}</div>
-                        <div className="text-xs text-slate-500 mt-0.5 font-medium">
+                        <div className="text-sm font-semibold text-slate-800 dark:text-slate-200 truncate">{contact.display_name}</div>
+                        <div className="text-xs text-slate-900 dark:text-slate-500 mt-0.5 font-medium">
                           @{contact.username}
                           {!contact.is_online && contact.last_seen && (
                             <span className="ml-2 opacity-60 font-normal">
@@ -653,14 +680,14 @@ export default function Home() {
                     <div className="flex items-center space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
                       <button
                         onClick={() => handleStartDirectChat(contact.id)}
-                        className="p-2 text-slate-400 hover:text-blue-400 hover:bg-blue-500/10 rounded-full transition-colors"
+                        className="p-2 text-slate-600 dark:text-slate-400 hover:text-blue-400 hover:bg-blue-500/10 rounded-full transition-colors"
                         title="Start Direct Chat"
                       >
                         <MessageSquare className="w-4 h-4" />
                       </button>
                       <button
                         onClick={() => handleDeleteContact(contact.id)}
-                        className="p-2 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-full transition-colors"
+                        className="p-2 text-slate-600 dark:text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-full transition-colors"
                         title="Remove Contact"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -673,7 +700,7 @@ export default function Home() {
           </aside>
 
           {/* Chat Preview Placeholder Pane */}
-          <section className={`flex-1 flex-col bg-slate-950 overflow-hidden min-h-0 ${selectedConversation ? 'flex' : 'hidden md:flex items-center justify-center text-center'}`}>
+          <section className={`flex-1 flex-col bg-white dark:bg-slate-950 overflow-hidden min-h-0 ${selectedConversation ? 'flex' : 'hidden md:flex items-center justify-center text-center'}`}>
             {selectedConversation ? (
               <ChatWindow
                 conversation={selectedConversation}
@@ -690,13 +717,13 @@ export default function Home() {
                 onBack={() => setSelectedConversation(null)}
               />
             ) : (
-              <div className="space-y-4 text-slate-500 max-w-sm flex flex-col items-center animate-in fade-in duration-500">
-                <div className="w-24 h-24 rounded-full bg-slate-900 flex items-center justify-center border border-slate-800 shadow-inner">
+              <div className="space-y-4 text-slate-900 dark:text-slate-500 max-w-sm flex flex-col items-center animate-in fade-in duration-500">
+                <div className="w-24 h-24 rounded-full bg-slate-100 dark:bg-slate-900 flex items-center justify-center border border-slate-200 dark:border-slate-800 shadow-inner">
                   <MessageSquare className="w-10 h-10 text-slate-600" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-slate-200">Your Messages</h3>
-                  <p className="text-sm text-slate-500 mt-2">Send private photos and messages to a friend or group.</p>
+                  <h3 className="text-lg font-bold text-slate-800 dark:text-slate-200">Your Messages</h3>
+                  <p className="text-sm text-slate-900 dark:text-slate-500 mt-2">Send private photos and messages to a friend or group.</p>
                 </div>
               </div>
             )}
@@ -706,26 +733,26 @@ export default function Home() {
 
       {/* Add Contact Modal */}
       {showAddContactModal && (
-        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 max-w-sm w-full space-y-4 text-left shadow-2xl">
-            <h3 className="text-sm font-bold text-white">Add New Contact</h3>
+        <div className="fixed inset-0 bg-white/80 dark:bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 max-w-sm w-full space-y-4 text-left shadow-2xl">
+            <h3 className="text-sm font-bold text-slate-900 dark:text-white">Add New Contact</h3>
             <form onSubmit={handleAddContact} className="space-y-3">
               <div>
-                <label className="block text-xs font-medium text-slate-400 mb-1">Username</label>
+                <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Username</label>
                 <input
                   type="text"
                   value={addContactUsername}
                   onChange={(e) => setAddContactUsername(e.target.value)}
                   required
                   placeholder="e.g. bob"
-                  className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-xs text-white focus:outline-none focus:border-blue-500"
+                  className="w-full px-3 py-2 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg text-xs text-white focus:outline-none focus:border-blue-500"
                 />
               </div>
               <div className="flex justify-end space-x-2 pt-2">
                 <button
                   type="button"
                   onClick={() => setShowAddContactModal(false)}
-                  className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded-lg"
+                  className="px-3 py-1.5 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs rounded-lg"
                 >
                   Cancel
                 </button>

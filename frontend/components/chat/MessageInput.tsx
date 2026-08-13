@@ -68,15 +68,15 @@ export function MessageInput({ onSend, onTyping, disabled }: MessageInputProps) 
   };
 
   return (
-    <div className="p-4 bg-slate-900/90 backdrop-blur-md border-t border-slate-800/50 flex items-end space-x-3 shrink-0 z-10">
-      <div className="flex-1 bg-slate-950/50 border border-slate-700/50 rounded-3xl overflow-hidden focus-within:border-blue-500/70 focus-within:bg-slate-900 focus-within:shadow-[0_0_15px_rgba(59,130,246,0.1)] transition-all shadow-sm">
+    <div className="p-4 bg-slate-100/90 dark:bg-slate-900/90 backdrop-blur-md border-t border-slate-200/50 dark:border-slate-800/50 flex items-end space-x-3 shrink-0 z-10">
+      <div className="flex-1 bg-white/50 dark:bg-slate-950/50 border border-slate-300/50 dark:border-slate-700/50 rounded-3xl overflow-hidden focus-within:border-blue-500/70 focus-within:bg-slate-100 dark:bg-slate-900 focus-within:shadow-[0_0_15px_rgba(59,130,246,0.1)] transition-all shadow-sm">
         <textarea
           value={text}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
           disabled={disabled}
           placeholder={disabled ? 'Connecting...' : 'Message...'}
-          className="w-full bg-transparent text-sm text-slate-100 placeholder-slate-500 px-5 py-3 max-h-32 min-h-[46px] resize-none focus:outline-none disabled:opacity-50"
+          className="w-full bg-transparent text-sm text-slate-900 dark:text-slate-100 placeholder-slate-500 px-5 py-3 max-h-32 min-h-[46px] resize-none focus:outline-none disabled:opacity-50"
           rows={text.split('\n').length > 1 ? Math.min(text.split('\n').length, 5) : 1}
         />
       </div>

@@ -35,10 +35,10 @@ export function Toast({ message, type = 'info', duration = 3000, onClose }: Toas
 
   return (
     <div className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] transition-all duration-500 ease-out ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-6 scale-95'}`}>
-      <div className={`flex items-center space-x-3 px-5 py-3 rounded-full border shadow-2xl backdrop-blur-xl bg-slate-900/90 ${bgColors[type]}`}>
+      <div className={`flex items-center space-x-3 px-5 py-3 rounded-full border shadow-2xl backdrop-blur-xl bg-slate-100/90 dark:bg-slate-900/90 ${bgColors[type]}`}>
         {icons[type]}
-        <p className="text-sm font-semibold text-slate-200">{message}</p>
-        <button onClick={() => setIsVisible(false)} className="pl-2 text-slate-500 hover:text-slate-300 transition-colors">
+        <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">{message}</p>
+        <button onClick={() => setIsVisible(false)} className="pl-2 text-slate-900 dark:text-slate-500 hover:text-slate-700 dark:text-slate-300 transition-colors">
           <X className="w-4 h-4" />
         </button>
       </div>

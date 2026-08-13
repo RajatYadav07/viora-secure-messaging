@@ -82,7 +82,7 @@ export function GroupInfoModal({ groupId, currentUser, onClose, onLeave, contact
 
   if (loading && !group) {
     return (
-      <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+      <div className="fixed inset-0 bg-white/80 dark:bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
         <div className="text-white text-sm">Loading group info...</div>
       </div>
     );
@@ -97,15 +97,15 @@ export function GroupInfoModal({ groupId, currentUser, onClose, onLeave, contact
   const nonMembers = contacts.filter(c => !group.members.some(m => m.user_id === c.id));
 
   return (
-    <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 z-50 animate-in fade-in duration-200">
-      <div className="bg-slate-900 border border-slate-700/50 rounded-2xl p-6 max-w-sm w-full space-y-5 shadow-2xl flex flex-col max-h-[85vh] scale-100 animate-in zoom-in-95 duration-200">
+    <div className="fixed inset-0 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 z-50 animate-in fade-in duration-200">
+      <div className="bg-slate-100 dark:bg-slate-900 border border-slate-300/50 dark:border-slate-700/50 rounded-2xl p-6 max-w-sm w-full space-y-5 shadow-2xl flex flex-col max-h-[85vh] scale-100 animate-in zoom-in-95 duration-200">
         
-        <div className="flex items-center justify-between border-b border-slate-800/50 pb-2">
-          <h3 className="text-sm font-bold text-slate-100 flex items-center space-x-2 tracking-wide">
+        <div className="flex items-center justify-between border-b border-slate-200/50 dark:border-slate-800/50 pb-2">
+          <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 flex items-center space-x-2 tracking-wide">
             <Users className="w-4 h-4 text-blue-500" />
             <span>Group Info</span>
           </h3>
-          <button onClick={onClose} className="p-1.5 text-slate-400 hover:text-white rounded-full hover:bg-slate-800 transition-colors">
+          <button onClick={onClose} className="p-1.5 text-slate-600 dark:text-slate-400 hover:text-white rounded-full hover:bg-slate-200 dark:bg-slate-800 transition-colors">
             <X className="w-4 h-4" />
           </button>
         </div>
@@ -117,8 +117,8 @@ export function GroupInfoModal({ groupId, currentUser, onClose, onLeave, contact
             className="w-20 h-20 text-2xl shadow-lg" 
           />
           <div className="text-center">
-            <h2 className="text-lg font-bold text-slate-100 tracking-wide">{group.name}</h2>
-            <p className="text-xs text-slate-400 mt-1">{group.members.length} members</p>
+            <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100 tracking-wide">{group.name}</h2>
+            <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">{group.members.length} members</p>
           </div>
         </div>
 
@@ -127,7 +127,7 @@ export function GroupInfoModal({ groupId, currentUser, onClose, onLeave, contact
         {isAdmin && !showAddMember && nonMembers.length > 0 && (
           <button
             onClick={() => setShowAddMember(true)}
-            className="w-full py-2 bg-slate-800/80 hover:bg-slate-700 text-blue-400 hover:text-blue-300 text-sm font-medium rounded-xl flex items-center justify-center space-x-2 transition-all border border-slate-700/50 shadow-sm"
+            className="w-full py-2 bg-slate-200/80 dark:bg-slate-800/80 hover:bg-slate-300 dark:bg-slate-700 text-blue-400 hover:text-blue-300 text-sm font-medium rounded-xl flex items-center justify-center space-x-2 transition-all border border-slate-300/50 dark:border-slate-700/50 shadow-sm"
           >
             <UserPlus className="w-4 h-4" />
             <span>Add Member</span>
@@ -135,13 +135,13 @@ export function GroupInfoModal({ groupId, currentUser, onClose, onLeave, contact
         )}
 
         {showAddMember && (
-          <form onSubmit={handleAddMember} className="bg-slate-950/50 p-4 rounded-xl border border-slate-700/50 space-y-4 shadow-inner">
-            <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider">Select Contact</label>
+          <form onSubmit={handleAddMember} className="bg-white/50 dark:bg-slate-950/50 p-4 rounded-xl border border-slate-300/50 dark:border-slate-700/50 space-y-4 shadow-inner">
+            <label className="block text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Select Contact</label>
             <select
               value={addMemberId}
               onChange={(e) => setAddMemberId(e.target.value ? Number(e.target.value) : '')}
               required
-              className="w-full px-4 py-2.5 bg-slate-900 border border-slate-700/50 rounded-xl text-sm text-slate-100 focus:outline-none focus:border-blue-500/70 shadow-sm"
+              className="w-full px-4 py-2.5 bg-slate-100 dark:bg-slate-900 border border-slate-300/50 dark:border-slate-700/50 rounded-xl text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:border-blue-500/70 shadow-sm"
             >
               <option value="" disabled>Choose contact...</option>
               {nonMembers.map(c => (
@@ -152,7 +152,7 @@ export function GroupInfoModal({ groupId, currentUser, onClose, onLeave, contact
               <button
                 type="button"
                 onClick={() => setShowAddMember(false)}
-                className="flex-1 py-2 hover:bg-slate-800 text-slate-300 text-sm font-medium rounded-full transition-colors"
+                className="flex-1 py-2 hover:bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-sm font-medium rounded-full transition-colors"
               >
                 Cancel
               </button>
@@ -168,13 +168,13 @@ export function GroupInfoModal({ groupId, currentUser, onClose, onLeave, contact
         )}
 
         <div className="flex-1 overflow-y-auto space-y-1 custom-scrollbar min-h-[150px]">
-          <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 mt-2 px-1">Members</div>
+          <div className="text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-2 mt-2 px-1">Members</div>
           {group.members.map(member => (
-            <div key={member.user_id} className="flex items-center justify-between p-2 rounded-xl hover:bg-slate-800/50 transition-colors group">
+            <div key={member.user_id} className="flex items-center justify-between p-2 rounded-xl hover:bg-slate-200/50 dark:bg-slate-800/50 transition-colors group">
               <div className="flex items-center space-x-3 min-w-0">
                 <Avatar url={member.avatar} name={member.display_name} className="w-10 h-10 text-sm" />
                 <div className="flex-1 min-w-0">
-                  <div className="text-sm font-medium text-slate-200 truncate flex items-center space-x-2">
+                  <div className="text-sm font-medium text-slate-800 dark:text-slate-200 truncate flex items-center space-x-2">
                     <span>{member.user_id === currentUser.id ? 'You' : member.display_name}</span>
                     {member.role === 'admin' && (
                       <span title="Admin" className="flex items-center px-1.5 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/20">
@@ -183,7 +183,7 @@ export function GroupInfoModal({ groupId, currentUser, onClose, onLeave, contact
                       </span>
                     )}
                   </div>
-                  <div className="text-[11px] text-slate-500 truncate">@{member.username}</div>
+                  <div className="text-[11px] text-slate-900 dark:text-slate-500 truncate">@{member.username}</div>
                 </div>
               </div>
               
@@ -191,7 +191,7 @@ export function GroupInfoModal({ groupId, currentUser, onClose, onLeave, contact
                 <button
                   onClick={() => handleRemoveMember(member.user_id)}
                   disabled={actionLoading}
-                  className="p-2 text-slate-500 hover:text-red-400 hover:bg-red-500/10 rounded-full opacity-0 group-hover:opacity-100 transition-all disabled:opacity-50 focus:opacity-100"
+                  className="p-2 text-slate-900 dark:text-slate-500 hover:text-red-400 hover:bg-red-500/10 rounded-full opacity-0 group-hover:opacity-100 transition-all disabled:opacity-50 focus:opacity-100"
                   title="Remove from group"
                 >
                   <UserMinus className="w-4 h-4" />
@@ -201,7 +201,7 @@ export function GroupInfoModal({ groupId, currentUser, onClose, onLeave, contact
           ))}
         </div>
 
-        <div className="pt-4 border-t border-slate-800/50">
+        <div className="pt-4 border-t border-slate-200/50 dark:border-slate-800/50">
           <button
             onClick={handleLeaveGroup}
             disabled={actionLoading}

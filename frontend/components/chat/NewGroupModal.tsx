@@ -54,50 +54,50 @@ export function NewGroupModal({ contacts, onClose, onSuccess }: NewGroupModalPro
   };
 
   return (
-    <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 z-50 animate-in fade-in duration-200">
-      <div className="bg-slate-900 border border-slate-700/50 rounded-2xl p-6 max-w-md w-full space-y-5 shadow-2xl flex flex-col max-h-[85vh] scale-100 animate-in zoom-in-95 duration-200">
-        <div className="flex items-center justify-between pb-2 border-b border-slate-800/50">
-          <h3 className="text-sm font-bold text-slate-100 flex items-center space-x-2 tracking-wide">
+    <div className="fixed inset-0 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 z-50 animate-in fade-in duration-200">
+      <div className="bg-slate-100 dark:bg-slate-900 border border-slate-300/50 dark:border-slate-700/50 rounded-2xl p-6 max-w-md w-full space-y-5 shadow-2xl flex flex-col max-h-[85vh] scale-100 animate-in zoom-in-95 duration-200">
+        <div className="flex items-center justify-between pb-2 border-b border-slate-200/50 dark:border-slate-800/50">
+          <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 flex items-center space-x-2 tracking-wide">
             <Users className="w-4 h-4 text-blue-500" />
             <span>Create New Group</span>
           </h3>
-          <button onClick={onClose} className="p-1.5 text-slate-400 hover:text-white rounded-full hover:bg-slate-800 transition-colors">
+          <button onClick={onClose} className="p-1.5 text-slate-600 dark:text-slate-400 hover:text-white rounded-full hover:bg-slate-200 dark:bg-slate-800 transition-colors">
             <X className="w-4 h-4" />
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4 flex flex-col overflow-hidden">
           <div className="shrink-0">
-            <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Group Name</label>
+            <label className="block text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5">Group Name</label>
             <input
               type="text"
               value={groupName}
               onChange={(e) => setGroupName(e.target.value)}
               required
               placeholder="e.g. Weekend Plans"
-              className="w-full px-4 py-2.5 bg-slate-950/50 border border-slate-700/50 rounded-xl text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-500/70 focus:bg-slate-900 transition-all shadow-sm"
+              className="w-full px-4 py-2.5 bg-white/50 dark:bg-slate-950/50 border border-slate-300/50 dark:border-slate-700/50 rounded-xl text-sm text-slate-900 dark:text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-500/70 focus:bg-slate-100 dark:bg-slate-900 transition-all shadow-sm"
             />
           </div>
 
           <div className="flex flex-col overflow-hidden min-h-[200px]">
-            <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Select Members ({selectedIds.size})</label>
+            <label className="block text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5">Select Members ({selectedIds.size})</label>
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search contacts..."
-              className="w-full px-4 py-2 mb-3 bg-slate-950/50 border border-slate-700/50 rounded-xl text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-500/70 focus:bg-slate-900 transition-all shadow-sm shrink-0"
+              className="w-full px-4 py-2 mb-3 bg-white/50 dark:bg-slate-950/50 border border-slate-300/50 dark:border-slate-700/50 rounded-xl text-xs text-slate-900 dark:text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-500/70 focus:bg-slate-100 dark:bg-slate-900 transition-all shadow-sm shrink-0"
             />
             
             <div className="flex-1 overflow-y-auto space-y-1 pr-1 custom-scrollbar">
               {filteredContacts.length === 0 ? (
-                <div className="text-xs text-slate-500 text-center py-4">No contacts found.</div>
+                <div className="text-xs text-slate-900 dark:text-slate-500 text-center py-4">No contacts found.</div>
               ) : (
                 filteredContacts.map((c) => (
                   <label
                     key={c.id}
                     className={`flex items-center space-x-3 p-2 rounded-lg cursor-pointer transition-all ${
-                      selectedIds.has(c.id) ? 'bg-blue-600/20 border border-blue-500/30' : 'hover:bg-slate-800 border border-transparent'
+                      selectedIds.has(c.id) ? 'bg-blue-600/20 border border-blue-500/30' : 'hover:bg-slate-200 dark:bg-slate-800 border border-transparent'
                     }`}
                   >
                     <input
@@ -106,12 +106,12 @@ export function NewGroupModal({ contacts, onClose, onSuccess }: NewGroupModalPro
                       onChange={() => toggleContact(c.id)}
                       className="hidden"
                     />
-                    <div className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center font-bold text-xs text-slate-200 shrink-0">
+                    <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center font-bold text-xs text-slate-800 dark:text-slate-200 shrink-0">
                       {c.display_name[0].toUpperCase()}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="text-xs font-medium text-slate-200 truncate">{c.display_name}</div>
-                      <div className="text-[10px] text-slate-500 truncate">@{c.username}</div>
+                      <div className="text-xs font-medium text-slate-800 dark:text-slate-200 truncate">{c.display_name}</div>
+                      <div className="text-[10px] text-slate-900 dark:text-slate-500 truncate">@{c.username}</div>
                     </div>
                     {selectedIds.has(c.id) && (
                       <div className="w-4 h-4 rounded-full bg-blue-500 flex items-center justify-center text-white shrink-0">
@@ -126,11 +126,11 @@ export function NewGroupModal({ contacts, onClose, onSuccess }: NewGroupModalPro
 
           {error && <div className="p-2.5 rounded-lg bg-red-500/10 border border-red-500/20 text-xs text-red-400 shrink-0">{error}</div>}
 
-          <div className="flex justify-end space-x-3 pt-4 border-t border-slate-800/50 shrink-0">
+          <div className="flex justify-end space-x-3 pt-4 border-t border-slate-200/50 dark:border-slate-800/50 shrink-0">
             <button
               type="button"
               onClick={onClose}
-              className="px-5 py-2 hover:bg-slate-800 text-slate-300 text-sm font-medium rounded-full transition-colors"
+              className="px-5 py-2 hover:bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-sm font-medium rounded-full transition-colors"
             >
               Cancel
             </button>

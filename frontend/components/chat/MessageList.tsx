@@ -16,15 +16,15 @@ export function MessageList({ messages, currentUserId }: MessageListProps) {
   }, [messages]);
 
   return (
-    <div className="flex-1 min-h-0 overflow-y-auto p-4 space-y-1 bg-[#0b1120] custom-scrollbar">
+    <div className="flex-1 min-h-0 overflow-y-auto p-4 space-y-1 bg-slate-50 dark:bg-[#0b1120] custom-scrollbar">
       {messages.length === 0 ? (
-        <div className="h-full flex flex-col items-center justify-center text-slate-500 space-y-4">
-          <div className="w-16 h-16 rounded-full bg-slate-800/50 flex items-center justify-center border border-slate-700/50">
+        <div className="h-full flex flex-col items-center justify-center text-slate-900 dark:text-slate-500 space-y-4">
+          <div className="w-16 h-16 rounded-full bg-slate-200/50 dark:bg-slate-800/50 flex items-center justify-center border border-slate-300/50 dark:border-slate-700/50">
             <MessageSquareDashed className="w-8 h-8 text-slate-600" />
           </div>
           <div className="text-center">
-            <p className="text-sm font-semibold text-slate-300">No messages yet</p>
-            <p className="text-xs text-slate-500 mt-1">Send a message to start the conversation.</p>
+            <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">No messages yet</p>
+            <p className="text-xs text-slate-900 dark:text-slate-500 mt-1">Send a message to start the conversation.</p>
           </div>
         </div>
       ) : (

@@ -291,7 +291,7 @@ export default function Home() {
   };
 
   return (
-    <main className="flex-1 flex flex-col h-full min-h-0 bg-slate-950 text-slate-100 overflow-hidden">
+    <main className="flex-1 flex flex-col bg-slate-950 text-slate-100 relative">
       {/* Header bar */}
       <header className="h-14 border-b border-slate-800 bg-slate-900/60 backdrop-blur-md px-6 flex items-center justify-between shrink-0">
         <div className="flex items-center space-x-3">
@@ -461,7 +461,7 @@ export default function Home() {
         </div>
       ) : (
         /* Post-Auth Viora Interface */
-        <div className="flex-1 flex overflow-hidden relative min-h-0">
+        <div className="absolute top-14 bottom-0 left-0 right-0 flex overflow-hidden">
           {/* Viora Sidebar */}
           <aside className={`w-full md:w-[340px] lg:w-96 border-r border-slate-800/50 bg-[#0b1120] flex flex-col shrink-0 transition-all ${selectedConversation ? 'hidden md:flex' : 'flex'} shadow-[4px_0_24px_rgba(0,0,0,0.2)] z-20`}>
             

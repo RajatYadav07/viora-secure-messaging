@@ -11,7 +11,7 @@ import {
   Message,
 } from '@/types';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.NODE_ENV === 'production' ? 'https://viora-secure-messaging.onrender.com' : 'http://localhost:8000');
 
 async function handleResponse<T>(res: Response): Promise<T> {
   if (res.status === 204) {

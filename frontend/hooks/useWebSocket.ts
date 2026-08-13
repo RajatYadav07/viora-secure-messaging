@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Message, WebSocketState, WsEvent, WsStatusUpdateEvent, WsTypingEvent } from '@/types';
 
-const WS_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000').replace(/^http/, 'ws') + '/ws';
+const WS_URL = (process.env.NEXT_PUBLIC_API_URL || (process.env.NODE_ENV === 'production' ? 'https://viora-secure-messaging.onrender.com' : 'http://localhost:8000')).replace(/^http/, 'ws') + '/ws';
 
 export interface TypingUser {
   userId: number;

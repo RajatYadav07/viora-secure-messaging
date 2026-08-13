@@ -1,146 +1,273 @@
-# Signal Clone — Secure Messaging Platform
+# Viora — Secure Real-Time Messaging
 
-An original implementation inspired by Signal's UX and core features, built for production quality with clean modular architecture. 
+A production-style real-time messaging platform inspired by modern privacy-focused messaging applications.
 
-This project implements a fully functional, real-time messaging platform with direct chats, group messaging, delivery/read receipts, presence tracking, and a polished user interface.
+## 🔗 Live Demo
+- **Frontend**: [https://viora-secure-messaging.vercel.app](https://viora-secure-messaging.vercel.app)
+- **Backend API**: [https://viora-secure-messaging.onrender.com](https://viora-secure-messaging.onrender.com)
+- **API Health Check**: [https://viora-secure-messaging.onrender.com/api/health](https://viora-secure-messaging.onrender.com/api/health)
+- **GitHub Repository**: [https://github.com/RajatYadav07/viora-secure-messaging](https://github.com/RajatYadav07/viora-secure-messaging)
 
-## 1. Project Overview
-This platform allows users to register, log in, manage contacts, and engage in real-time messaging via WebSockets. It is modeled after the Signal desktop application, focusing on robust backend persistence, secure session management, and responsive frontend design.
+### Demo Credentials / Testing
+- **Register / Login**: You can use any username and phone number.
+- **Mock OTP**: Use `123456` to authenticate.
+- **Testing Real-Time Messaging**: Open two separate browser windows (or one normal, one incognito) and log in with different accounts (e.g., `alice` and `bob`). You can then add each other as contacts and test real-time chat.
 
-## 2. Features
-- **Authentication**: Mocked OTP registration & login, secure HttpOnly cookie session management.
-- **Contacts**: Add/remove contacts by username, search contacts.
-- **Direct Messaging**: 1-on-1 real-time chat with message history persistence.
-- **Group Messaging**: Create groups, add/remove members, admin roles, and real-time group broadcasting.
-- **Message Status**: Real-time tracking of sent, delivered, and read statuses, including aggregate status for groups.
-- **Typing Indicators**: Ephemeral typing indicators broadcasted over WebSockets.
-- **Presence**: Real-time online/offline status and "last seen" tracking.
-- **Profile Management**: Update display name and avatar.
-- **UI & Placeholders**: Signal-style settings modal, mock encryption shield, toast notifications, voice/video call placeholders, stories placeholders, and unread conversation filters.
+## 📌 Overview
+Viora is a full-stack real-time messaging application. Users can register and log in securely, manage contacts, create direct or group conversations, and send messages in real time. The application features live presence tracking, typing indicators, and granular message delivery/read states. Viora utilizes REST APIs for persistent data operations and WebSockets for instantaneous real-time communication. The polished UI is fully responsive across desktop and mobile, and includes a persistent Dark/Light theme toggle.
 
-## 3. Tech Stack
-### Frontend
-- **Framework**: Next.js (App Router)
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **Icons**: Lucide React
+## ✨ Features
+### Authentication
+- Mock OTP authentication
+- HttpOnly cookie-based sessions
+- Login/logout
+- Profile management
 
-### Backend
-- **Framework**: FastAPI
-- **Language**: Python 3.10+
-- **ORM**: SQLAlchemy
-- **Database**: SQLite
-- **Real-time**: WebSockets
+### Messaging
+- 1-to-1 conversations
+- Real-time messaging
+- Persistent message history
+- Sent/delivered/read message states
+- Typing indicators
+- Online/offline presence
+- Last seen tracking
 
-## 4. Architecture
-The application follows a standard client-server architecture:
-- **Client**: Next.js React application handling UI, state management, and WebSocket connections.
-- **Server**: FastAPI REST API handling business logic, database persistence, and WebSocket broadcasting.
-- **Database**: SQLite relational database tracking users, conversations, messages, and statuses.
+### Groups
+- Create groups
+- Add/remove members
+- Admin/member roles
+- Group messaging
+- Group message status aggregation
 
-## 5. Folder Structure
+### Contacts
+- Add/remove contacts
+- Search contacts
+
+### UI/UX
+- Responsive desktop and mobile layout
+- Dark/Light theme toggle with persistence
+- Independent internal chat scrolling
+- Independent chat-list scrolling
+- Toast notifications
+- Unread filters
+- Stories placeholder
+- Voice/video call placeholders
+- Encryption/security UI placeholder
+
+## 🛠 Tech Stack
+
+| Layer | Technology |
+|---|---|
+| **Frontend** | Next.js, React, TypeScript, Tailwind CSS |
+| **Backend** | FastAPI, Python |
+| **Database** | SQLite, SQLAlchemy |
+| **Real-time** | WebSockets |
+| **Icons** | Lucide React |
+| **Deployment** | Vercel + Render |
+
+## 🏗 Architecture
+The application follows a clean client-server architecture separating persistent state and real-time streams:
+
 ```
+Browser
+   ↓
+Next.js Frontend
+   ↓  (REST API for persistence + WebSocket for real-time events)
+FastAPI Backend
+   ↓  (SQLAlchemy ORM)
+SQLite Database
+```
+- **REST API**: Handles all persistent operations such as authentication, creating groups, adding contacts, and fetching message history.
+- **WebSockets**: Handles real-time instantaneous communication including delivering messages, updating message read/delivery statuses, broadcasting typing indicators, and syncing online presence.
+
+## 📁 Project Structure
+```text
 signal-clone/
 ├── frontend/
-│   ├── app/            # Next.js App Router pages and layout
-│   ├── components/     # Reusable React components (UI, Chat)
+│   ├── app/            # Next.js App Router pages, layout, and global CSS
+│   ├── components/     # Reusable React components (UI, Chat Modals, Message Bubbles)
 │   ├── hooks/          # Custom hooks (e.g., useWebSocket)
-│   ├── lib/            # API wrappers and utilities
-│   ├── types/          # TypeScript interfaces
-│   └── ...config files
+│   ├── lib/            # API wrappers and generic utilities
+│   ├── types/          # TypeScript interfaces for frontend state
+│   └── tailwind.config.ts # Tailwind CSS configuration
 └── backend/
     ├── app/
-    │   ├── models/     # SQLAlchemy ORM models
-    │   ├── routes/     # FastAPI routers (auth, messages, etc.)
+    │   ├── models/     # SQLAlchemy ORM models (User, Message, Conversation)
+    │   ├── routes/     # FastAPI REST routers (auth, messages, groups, etc.)
     │   ├── schemas/    # Pydantic validation schemas
-    │   ├── services/   # Core business logic
+    │   ├── services/   # Core business logic separated from transport layer
     │   ├── websocket/  # WebSocket connection manager
-    │   ├── database.py # DB initialization
     │   └── main.py     # Application entrypoint
-    ├── test_*.py       # Pytest test suites
-    └── ...config files
+    └── test_*.py       # Pytest test suites
 ```
 
-## 6. Database Schema
-- **users**: id, username, phone, display_name, avatar, is_online, last_seen, created_at.
-- **auth_sessions**: session_token, user_id, created_at, expires_at.
-- **contacts**: id, user_id, contact_user_id, created_at.
-- **conversations**: id, type (direct/group), name, created_at, updated_at.
-- **conversation_members**: id, conversation_id, user_id, role (admin/member), joined_at.
-- **messages**: id, conversation_id, sender_id, content, created_at.
-- **message_statuses**: id, message_id, user_id, status (sent/delivered/read), updated_at.
+## 🗄 Database Schema
 
-## 7. API Overview
-All endpoints reside under `/api`:
-- **Auth**: `POST /auth/register`, `POST /auth/login`, `POST /auth/verify-otp`, `POST /auth/logout`, `PUT /auth/profile`, `GET /auth/me`
-- **Contacts**: `GET /contacts`, `POST /contacts`, `DELETE /contacts/{user_id}`
-- **Conversations**: `GET /conversations`, `POST /conversations/direct`, `GET /conversations/search`
-- **Groups**: `POST /groups`, `POST /groups/{group_id}/members`, `DELETE /groups/{group_id}/members/{user_id}`, `POST /groups/{group_id}/leave`, `GET /groups/{group_id}`
-- **Messages**: `GET /conversations/{id}/messages`, `POST /conversations/{id}/read`
+| Entity | Purpose | Important Fields |
+|---|---|---|
+| **users** | Tracks registered users and presence | `id`, `username`, `phone`, `is_online`, `last_seen` |
+| **auth_sessions** | Secure cookie session management | `session_token`, `user_id`, `expires_at` |
+| **contacts** | User address book connections | `id`, `user_id`, `contact_user_id` |
+| **conversations** | Chat threads (direct or group) | `id`, `type`, `name`, `updated_at` |
+| **conversation_members**| Links users to conversations | `conversation_id`, `user_id`, `role` |
+| **messages** | Persistent message history | `id`, `conversation_id`, `sender_id`, `content` |
+| **message_statuses** | Tracks read/delivery per user | `message_id`, `user_id`, `status` |
 
-## 8. WebSocket Overview
-Connections are established at `ws://<host>/ws`.
-- **Authentication**: Validated securely using the `session_token` HttpOnly cookie.
-- **Incoming Events (from client)**: `message`, `typing`.
-- **Outgoing Events (from server)**: `message`, `status_update`, `presence`, `typing`, `error`.
-- **Presence**: Connect/Disconnect lifecycle hooks update user online/offline status in DB and broadcast to relevant peers.
+## 🔌 API Endpoints
 
-## 9. Local Setup
-### Prerequisites
-- Node.js (v18+) & npm
-- Python (v3.10+) & pip
+### Authentication
+- `POST /api/auth/register`
+- `POST /api/auth/login`
+- `POST /api/auth/verify-otp`
+- `POST /api/auth/logout`
+- `PUT /api/auth/profile`
+- `GET /api/auth/me`
 
-## 10. Environment Variables
-No `.env` is strictly required for local development (defaults are provided), but you can configure:
+### Contacts
+- `GET /api/contacts`
+- `POST /api/contacts`
+- `DELETE /api/contacts/{user_id}`
 
-**Backend (`backend/.env`)**
-```env
-DATABASE_URL=sqlite:///./signal.db
-# (Optional) Add CORS overrides if running frontend on a custom port
-```
+### Conversations
+- `GET /api/conversations`
+- `POST /api/conversations/direct`
+- `GET /api/conversations/search`
 
-**Frontend (`frontend/.env.local`)**
-```env
-NEXT_PUBLIC_API_URL=http://localhost:8000
-```
+### Groups
+- `POST /api/groups`
+- `POST /api/groups/{group_id}/members`
+- `DELETE /api/groups/{group_id}/members/{user_id}`
+- `POST /api/groups/{group_id}/leave`
+- `GET /api/groups/{group_id}`
 
-## 11. How to run frontend
+### Messages
+- `GET /api/conversations/{id}/messages`
+- `POST /api/conversations/{id}/read`
+
+## ⚡ WebSocket
+- **Production Connection**: `wss://viora-secure-messaging.onrender.com/ws`
+- **Local Connection**: `ws://localhost:8000/ws`
+- **Authentication**: Authenticated seamlessly upon connection via the `session_token` HttpOnly cookie.
+- **Incoming Events (to Server)**: `message` (send chat), `typing` (broadcast typing state).
+- **Outgoing Events (to Client)**: `message` (receive chat), `status_update` (delivered/read receipts), `typing`, `error`.
+
+## 🔐 Security
+- **HttpOnly Session Cookie**: Prevents XSS attacks by keeping session tokens inaccessible to JavaScript.
+- **Secure Cookie Configuration**: Configured for `Secure` and `SameSite=None` in production to allow cross-origin credential passing.
+- **CORS Restrictions**: The backend explicitly allows the Vercel production frontend origin.
+- **WebSocket Authentication**: WebSocket connections are validated against active database sessions.
+- **Session Expiration**: Enforced server-side expiration times for authenticated sessions.
+
+## 🎨 UI / Responsive Design
+- **Responsive Layout**: Designed to adapt seamlessly between desktop monitors, tablets, and mobile viewports.
+- **Dark/Light Mode**: Full custom color palettes avoiding simple color inversions for a premium aesthetic.
+- **Persistent Theme Selection**: Chosen themes are saved to `localStorage` and injected early to prevent Flash of Unstyled Content (FOUC).
+- **Independent Scrolling**: Built with a strict flexbox hierarchy ensuring the message list and chat list scroll independently of the application shell.
+- **Mobile Viewport Handling**: Utilizes `100dvh` to prevent mobile browser URL bars from hiding crucial bottom input fields.
+
+## 🚀 Local Setup
+
+### 1. Clone Repository
 ```bash
-cd frontend
-npm install
-npm run dev
-# The application will run at: http://localhost:3000
+git clone https://github.com/RajatYadav07/viora-secure-messaging.git
+cd viora-secure-messaging
 ```
 
-## 12. How to run backend
+### 2. Backend Setup
 ```bash
 cd backend
 python -m venv venv
-# Windows: venv\Scripts\activate
-# macOS/Linux: source venv/bin/activate
+
+# Windows
+venv\Scripts\activate
+# macOS/Linux
+source venv/bin/activate
+
 pip install -r requirements.txt
-uvicorn app.main:app --reload --port 8000
-# The server will run at: http://localhost:8000
 ```
 
-## 13. Seed / Demo Credentials
-To quickly test the application, open two separate browser windows (or one normal, one incognito):
-1. **Window 1**: Register/Login as `alice`.
-2. **Window 2**: Register/Login as `bob`.
-*Note: The mock OTP code for all authentications is `123456`.*
+### 3. Frontend Setup
+```bash
+cd ../frontend
+npm install
+```
 
-## 14. Mocked Encryption Disclaimer
-**Important:** This assignment simulates end-to-end encryption for demonstration purposes. Messages are currently stored in plain text in the SQLite database to facilitate assignment grading and review. Real cryptographic protocols (like the Signal Protocol) are not implemented.
+### 4. Environment Variables
+No `.env` is strictly required for local development, as safe defaults are provided.
 
-## 15. Deployment Notes
-When deploying to production environments (e.g., Vercel for frontend, Render/Railway for backend):
-1. **Database**: Migrate from SQLite to PostgreSQL by updating `DATABASE_URL` and ensuring `psycopg2-binary` is installed.
-2. **CORS**: Ensure the backend's CORS origins allow the deployed frontend URL.
-3. **Environment Vars**: Set `NEXT_PUBLIC_API_URL` on the frontend to the deployed backend URL (e.g., `https://api.myapp.com`).
-4. **WebSockets**: Ensure the hosting provider supports long-lived WebSocket connections.
+### 5. Run Both Services
+**Run Backend:**
+```bash
+cd backend
+# With virtual environment activated:
+uvicorn app.main:app --reload --port 8000
+```
 
-## 16. Known Limitations
-- Media attachments, message reactions, and disappearing messages are not implemented.
-- Voice, video calls, and stories are frontend placeholders only.
-- Encryption is mocked for assignment scope.
-- Pagination is implemented for message fetching, but advanced infinite scrolling UI optimizations may require further extension.
+**Run Frontend:**
+```bash
+cd frontend
+npm run dev
+```
+The frontend will be available at `http://localhost:3000`.
+
+## 🌐 Environment Variables
+
+### Frontend (`frontend/.env.local` / Vercel Settings)
+- `NEXT_PUBLIC_API_URL`: Points to the backend URL.
+  - *Local*: `http://localhost:8000`
+  - *Production*: `https://viora-secure-messaging.onrender.com`
+
+### Backend (`backend/.env` / Render Settings)
+- `ENVIRONMENT`: Set to `production` in deployed environments.
+- `CORS_ORIGINS`: Allowed origins (e.g., `https://viora-secure-messaging.vercel.app`).
+- `DATABASE_URL`: Connection string. Defaults to `sqlite:///./signal.db`.
+
+## 🧪 Testing Checklist
+- [ ] Registration with mock OTP
+- [ ] Login and logout
+- [ ] Contact creation and removal
+- [ ] Direct messaging (1-on-1)
+- [ ] Real-time message delivery across browser windows
+- [ ] Typing indicators trigger and hide appropriately
+- [ ] Real-time online/offline presence tracking
+- [ ] Read receipts (Single tick → Double tick → Blue double tick)
+- [ ] Group creation and member management
+- [ ] Group messaging broadcast
+- [ ] Dark/light theme toggle and persistence
+- [ ] Desktop responsive layout constraints
+- [ ] Mobile responsive layout constraints and viewport handling
+- [ ] Chat-list internal scrolling
+- [ ] Message-list internal scrolling
+
+## ☁️ Deployment
+- **Frontend (Vercel)**: Vercel automatically builds and deploys the Next.js application directly from the configured Git `master` branch.
+  - *URL*: [https://viora-secure-messaging.vercel.app](https://viora-secure-messaging.vercel.app)
+- **Backend (Render)**: Render runs the FastAPI application using Uvicorn.
+  - *URL*: [https://viora-secure-messaging.onrender.com](https://viora-secure-messaging.onrender.com)
+  - *Configuration*: The production backend specifies `CORS_ORIGINS` to safely accept connections from the Vercel frontend, and routes WebSockets through secure `wss://`.
+
+*(Note: SQLite is currently used for ease of setup. For a true production deployment requiring durable, multi-instance persistent storage on Render, PostgreSQL should be used.)*
+
+## ⚠️ Limitations
+- **Mocked Encryption**: End-to-end encryption is mocked for the scope of this assignment/demo. Messages are currently stored in plaintext.
+- **Persistence**: SQLite is used currently, which is not suitable for ephemeral filesystems on serverless or containerized hosts. It should be replaced with PostgreSQL for true durability.
+- **Placeholders**: Voice/video calls, stories, media attachments, and reactions are frontend UI placeholders and are not fully implemented on the backend.
+
+## 🔮 Future Improvements
+- Migration to PostgreSQL for robust persistence.
+- Implementation of the real Signal Protocol for genuine End-to-End Encryption (E2EE).
+- Media and file upload handling via AWS S3 or equivalent.
+- Message reactions and disappearing messages.
+- Push notifications for offline mobile users.
+- WebRTC integration for production-grade voice and video calls.
+- Advanced pagination and infinite scrolling optimizations.
+- API rate limiting and DDoS protection.
+- Real SMS/Email verification for authentication.
+
+## 👨💻 Author
+- **GitHub**: [https://github.com/RajatYadav07](https://github.com/RajatYadav07)
+- **Project Repository**: [https://github.com/RajatYadav07/viora-secure-messaging](https://github.com/RajatYadav07/viora-secure-messaging)
+- **Live Demo**: [https://viora-secure-messaging.vercel.app](https://viora-secure-messaging.vercel.app)
+
+## 📄 License
+This project was developed as a software engineering assignment/project.

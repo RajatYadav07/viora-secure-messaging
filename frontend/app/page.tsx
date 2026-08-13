@@ -323,6 +323,7 @@ export default function Home() {
           </div>
         </div>
         <div className="flex items-center space-x-4">
+          <StatusBadge status={health} />
           <button
             onClick={toggleTheme}
             className="p-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition-all"
@@ -330,7 +331,6 @@ export default function Home() {
           >
             {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
           </button>
-          <StatusBadge status={health} />
           {currentUser && (
             <button
               onClick={handleLogout}
